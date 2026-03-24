@@ -1,0 +1,46 @@
+# Netlify 部署配置
+# 这个文件告诉 Netlify 如何构建和部署您的网站
+
+[build]
+  # 构建命令
+  command = "pnpm build"
+  # 发布目录（构建输出）
+  publish = "dist"
+  # 函数目录（如果有 serverless 函数）
+  functions = "netlify/functions"
+
+[build.environment]
+  # Node.js 版本
+  NODE_VERSION = "20"
+  # npm 包管理器
+  NPM_FLAGS = "--legacy-peer-deps"
+
+# 重定向规则 - 支持 SPA 路由
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# 缓存策略
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# 性能优化
+[context.production]
+  command = "pnpm build"
+  publish = "dist"
+
+[context.deploy-preview]
+  command = "pnpm build"
+  publish = "dist"
+
+[context.branch-deploy]
+  command = "pnpm build"
+  publish = "dist"
