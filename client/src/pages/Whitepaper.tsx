@@ -315,8 +315,8 @@ export default function Whitepaper() {
               {
                 title: isZh ? '手续费储备' : 'Fee Reserves',
                 desc: isZh
-                  ? '每笔交易 5% 的手续费进入风险储备金，用于覆盖贬价风险'
-                  : '5% transaction fee goes to risk reserves to cover depreciation risks',
+                  ? '每笔交易 3% 的手续费进入风险储备金，用于覆盖贬价风险'
+                  : '3% transaction fee goes to risk reserves to cover depreciation risks',
                 icon: '💰',
               },
               {
