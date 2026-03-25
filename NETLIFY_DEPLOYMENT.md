@@ -44,7 +44,7 @@ git push origin main
 Netlify 会自动检测到 `netlify.toml`，但您也可以手动配置：
 
 - **Build command**: `pnpm build`
-- **Publish directory**: `dist`
+- **Publish directory**: `dist/public`
 - **Node version**: 18
 
 点击 "Deploy site"

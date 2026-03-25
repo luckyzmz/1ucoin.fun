@@ -1,5 +1,5 @@
 # Dependencies
-# **/node_modules  # 注释掉以支持 Vercel 预构建部署
+**/node_modules
 .pnpm-store/
 
 # Build outputs

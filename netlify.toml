@@ -10,7 +10,7 @@
   functions = "netlify/functions"
 
 [build.environment]
-  # Node.js 版本
+  # Node.js 版本 - Vite 需要 20.19+ 或 22.12+
   NODE_VERSION = "20"
   # npm 包管理器
   NPM_FLAGS = "--legacy-peer-deps"

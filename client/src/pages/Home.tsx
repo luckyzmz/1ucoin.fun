@@ -425,7 +425,7 @@ export default function Home() {
               <ul className="space-y-2 text-sm text-gray-400">
                 <li><a href="#" className="hover:text-purple-400 transition">{t("footer.platform")}</a></li>
                 <li><a href="#" className="hover:text-purple-400 transition">{t("footer.token")}</a></li>
-                <li><a href="#" className="hover:text-purple-400 transition">{t("footer.whitepaper")}</a></li>
+                <li><a href="/whitepaper" className="hover:text-purple-400 transition">{t("footer.whitepaper")}</a></li>
               </ul>
             </div>
 
