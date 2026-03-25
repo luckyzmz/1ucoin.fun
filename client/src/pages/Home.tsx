@@ -434,7 +434,7 @@ export default function Home() {
               <ul className="space-y-2 text-sm text-gray-400">
                 <li><a href="#" className="hover:text-purple-400 transition">{t("footer.discord")}</a></li>
                 <li><a href="#" className="hover:text-purple-400 transition">{t("footer.twitter")}</a></li>
-                <li><a href="#" className="hover:text-purple-400 transition">{t("footer.telegram")}</a></li>
+                <li><a href="https://t.me/onecoinfun" className="hover:text-purple-400 transition">{t("footer.telegram")}</a></li>
               </ul>
             </div>
 
