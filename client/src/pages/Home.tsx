@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Zap, Shield, Coins, Users, TrendingUp, ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "wouter";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 /**
@@ -12,6 +13,7 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default function Home() {
   const { t } = useTranslation();
+  const [, setLocation] = useLocation();
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
@@ -58,7 +60,7 @@ export default function Home() {
     { label: t("hero.stats.coins"), value: "8+" },
     { label: t("hero.stats.entry"), value: "1 USDT" },
     { label: t("hero.stats.gas"), value: "< 0.01 USDT" },
-    { label: t("hero.stats.users"), value: "100万+" },
+    { label: t("hero.stats.users"), value: "3% Fee" },
   ];
 
   return (
@@ -85,7 +87,7 @@ export default function Home() {
           </div>
           <div className="flex items-center gap-4">
             <LanguageSwitcher />
-            <Button className="cyber-button hidden sm:flex">
+            <Button className="cyber-button hidden sm:flex" onClick={() => setLocation("/game")}>
               {t("nav.enterGame")}
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
@@ -131,13 +133,14 @@ export default function Home() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button className="cyber-button text-lg h-12">
+                <Button className="cyber-button text-lg h-12" onClick={() => setLocation("/game")}>
                   {t("hero.startButton")}
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
                 <Button
                   variant="outline"
                   className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 text-lg h-12"
+                  onClick={() => setLocation("/whitepaper")}
                 >
                   {t("hero.whitepaper")}
                 </Button>
@@ -323,7 +326,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <Button className="cyber-button mt-8">
+              <Button className="cyber-button mt-8" onClick={() => setLocation("/whitepaper")}>
                 {t("odc.learnMore")}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
@@ -389,13 +392,14 @@ export default function Home() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button className="cyber-button text-lg h-12 px-8">
+            <Button className="cyber-button text-lg h-12 px-8" onClick={() => setLocation("/game")}>
               {t("cta.startButton")}
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
             <Button
               variant="outline"
               className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 text-lg h-12 px-8"
+              onClick={() => window.open("https://t.me/onecoinfun", "_blank")}
             >
               {t("cta.joinCommunity")}
             </Button>
@@ -453,7 +457,7 @@ export default function Home() {
               {t("footer.copyright")}
             </p>
             <div className="flex gap-4 mt-4 md:mt-0">
-              <a href="#" className="text-gray-400 hover:text-purple-400 transition">
+              <a href="https://github.com/luckyzmz/1ucoin" className="text-gray-400 hover:text-purple-400 transition">
                 {t("footer.github")}
               </a>
               <a href="#" className="text-gray-400 hover:text-purple-400 transition">
