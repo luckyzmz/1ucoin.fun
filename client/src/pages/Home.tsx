@@ -1,19 +1,19 @@
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Zap, Shield, Coins, Users, TrendingUp, ChevronDown } from "lucide-react";
-import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { useLocation } from "wouter";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
-
 /**
  * 1ucoin.fun 首页
- * 设计风格：赛博朋克 + Web3 游戏美学
- * 核心元素：霓虹紫色、深色背景、发光效果、几何图形
+ *
+ * 新增：LiveTicker 实时数据滚动条（测试网阶段从合约读取，降级为模拟数据）
  */
+
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Zap, Shield, Coins, TrendingUp, ChevronDown } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import LiveTicker from "@/components/LiveTicker";
+import { Link } from "wouter";
 
 export default function Home() {
   const { t } = useTranslation();
-  const [, setLocation] = useLocation();
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
@@ -34,33 +34,17 @@ export default function Home() {
   ];
 
   const features = [
-    {
-      icon: Zap,
-      title: t("features.lowEntry.title"),
-      description: t("features.lowEntry.desc"),
-    },
-    {
-      icon: Shield,
-      title: t("features.transparent.title"),
-      description: t("features.transparent.desc"),
-    },
-    {
-      icon: TrendingUp,
-      title: t("features.lowFees.title"),
-      description: t("features.lowFees.desc"),
-    },
-    {
-      icon: Coins,
-      title: t("features.rewards.title"),
-      description: t("features.rewards.desc"),
-    },
+    { icon: Zap, title: t("features.lowEntry.title"), description: t("features.lowEntry.desc") },
+    { icon: Shield, title: t("features.transparent.title"), description: t("features.transparent.desc") },
+    { icon: TrendingUp, title: t("features.lowFees.title"), description: t("features.lowFees.desc") },
+    { icon: Coins, title: t("features.rewards.title"), description: t("features.rewards.desc") },
   ];
 
   const stats = [
     { label: t("hero.stats.coins"), value: "8+" },
     { label: t("hero.stats.entry"), value: "1 USDT" },
     { label: t("hero.stats.gas"), value: "< 0.01 USDT" },
-    { label: t("hero.stats.users"), value: "3% Fee" },
+    { label: t("hero.stats.users"), value: "100万+" },
   ];
 
   return (
@@ -75,51 +59,44 @@ export default function Home() {
             <span className="font-bold text-xl neon-glow">1UCOIN</span>
           </div>
           <div className="hidden md:flex items-center gap-8">
-            <a href="#features" className="hover:text-purple-400 transition">
-              {t("nav.features")}
-            </a>
-            <a href="#coins" className="hover:text-purple-400 transition">
-              {t("nav.coins")}
-            </a>
-            <a href="#roadmap" className="hover:text-purple-400 transition">
-              {t("nav.roadmap")}
-            </a>
+            <a href="#features" className="hover:text-purple-400 transition">{t("nav.features")}</a>
+            <a href="#coins" className="hover:text-purple-400 transition">{t("nav.coins")}</a>
+            <a href="#roadmap" className="hover:text-purple-400 transition">{t("nav.roadmap")}</a>
           </div>
           <div className="flex items-center gap-4">
             <LanguageSwitcher />
-            <Button className="cyber-button hidden sm:flex" onClick={() => setLocation("/game")}>
-              {t("nav.enterGame")}
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
+            <Link href="/game">
+              <Button className="cyber-button hidden sm:flex">
+                {t("nav.enterGame")}
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </Link>
           </div>
         </div>
       </nav>
 
+      {/* 🔴 LiveTicker — 实时数据滚动条 */}
+      <div className="pt-16">
+        <LiveTicker />
+      </div>
+
       {/* 英雄区 */}
       <section
-        className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden"
+        className="relative min-h-screen flex items-center justify-center overflow-hidden"
         style={{
           backgroundImage: `url('https://d2xsxph8kpxj0f.cloudfront.net/89394975/Y6tjXu4d9qFSwmg69sWuLL/hero-bg-W56Dg9ZtNoFUT4FmLaLYN9.webp')`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          transform: `translateY(${scrollY * 0.5}px)`,
         }}
       >
-        {/* 深色遮罩 */}
         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/60 to-background" />
-
-        {/* 网格背景 */}
         <div className="absolute inset-0 grid-bg opacity-20" />
 
-        {/* 内容 */}
         <div className="relative container mx-auto px-4 z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* 左侧文本 */}
             <div className="animate-slideInLeft">
               <div className="inline-block mb-6 px-4 py-2 bg-purple-500/20 border border-purple-500/50 rounded-full">
-                <span className="text-purple-300 text-sm font-semibold">
-                  {t("hero.badge")}
-                </span>
+                <span className="text-purple-300 text-sm font-semibold">{t("hero.badge")}</span>
               </div>
 
               <h1 className="text-5xl md:text-6xl font-black mb-6 leading-tight">
@@ -128,38 +105,32 @@ export default function Home() {
                 {t("hero.title2")}
               </h1>
 
-              <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-                {t("hero.description")}
-              </p>
+              <p className="text-xl text-gray-300 mb-8 leading-relaxed">{t("hero.description")}</p>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button className="cyber-button text-lg h-12" onClick={() => setLocation("/game")}>
-                  {t("hero.startButton")}
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-                <Button
-                  variant="outline"
-                  className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 text-lg h-12"
-                  onClick={() => setLocation("/whitepaper")}
-                >
-                  {t("hero.whitepaper")}
-                </Button>
+                <Link href="/game">
+                  <Button className="cyber-button text-lg h-12">
+                    {t("hero.startButton")}
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                </Link>
+                <Link href="/whitepaper">
+                  <Button variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 text-lg h-12">
+                    {t("hero.whitepaper")}
+                  </Button>
+                </Link>
               </div>
 
-              {/* 统计数据 */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
                 {stats.map((stat, idx) => (
                   <div key={idx} className="text-center">
-                    <div className="text-2xl font-bold text-purple-400 mb-2">
-                      {stat.value}
-                    </div>
+                    <div className="text-2xl font-bold text-purple-400 mb-2">{stat.value}</div>
                     <div className="text-sm text-gray-400">{stat.label}</div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* 右侧图像 */}
             <div className="animate-slideInUp hidden md:block">
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 blur-3xl rounded-full" />
@@ -173,7 +144,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* 向下箭头 */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
           <ChevronDown className="w-6 h-6 text-purple-400" />
         </div>
@@ -187,22 +157,13 @@ export default function Home() {
             <h2 className="text-4xl md:text-5xl font-black mb-6">
               {t("features.title")} <span className="neon-glow">1ucoin</span>
             </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              {t("features.subtitle")}
-            </p>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">{t("features.subtitle")}</p>
           </div>
-
           <div className="grid md:grid-cols-2 gap-8">
             {features.map((feature, idx) => {
               const Icon = feature.icon;
               return (
-                <div
-                  key={idx}
-                  className="cyber-card group"
-                  style={{
-                    animation: `slideInUp 0.6s ease-out ${idx * 0.1}s both`,
-                  }}
-                >
+                <div key={idx} className="cyber-card group" style={{ animation: `slideInUp 0.6s ease-out ${idx * 0.1}s both` }}>
                   <div className="flex items-start gap-4">
                     <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-lg flex items-center justify-center group-hover:shadow-lg group-hover:shadow-purple-500/50 transition-all">
                       <Icon className="w-6 h-6 text-white" />
@@ -227,20 +188,11 @@ export default function Home() {
             <h2 className="text-4xl md:text-5xl font-black mb-6">
               {t("coins.title")} <span className="neon-glow-cyan">{t("coins.subtitle")}</span>
             </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              {t("coins.description")}
-            </p>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">{t("coins.description")}</p>
           </div>
-
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {coins.map((coin, idx) => (
-              <div
-                key={idx}
-                className="cyber-card-coin group cursor-pointer"
-                style={{
-                  animation: `slideInUp 0.6s ease-out ${idx * 0.08}s both`,
-                }}
-              >
+              <div key={idx} className="cyber-card-coin group cursor-pointer" style={{ animation: `slideInUp 0.6s ease-out ${idx * 0.08}s both` }}>
                 <div className="flex flex-col items-center text-center">
                   <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${coin.color} mb-4 flex items-center justify-center font-bold text-2xl text-white shadow-lg group-hover:shadow-2xl transition-all`}>
                     {coin.name[0]}
@@ -263,7 +215,6 @@ export default function Home() {
               {t("howItWorks.title")} <span className="neon-glow">{t("howItWorks.subtitle")}</span>
             </h2>
           </div>
-
           <div className="grid md:grid-cols-4 gap-6">
             {[
               { step: "1", titleKey: "howItWorks.step1.title", descKey: "howItWorks.step1.desc" },
@@ -301,37 +252,26 @@ export default function Home() {
                 <br />
                 {t("odc.subtitle")}
               </h2>
-              <p className="text-lg text-gray-300 mb-6 leading-relaxed">
-                {t("odc.description")}
-              </p>
-
+              <p className="text-lg text-gray-300 mb-6 leading-relaxed">{t("odc.description")}</p>
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold">✓</span>
-                  </div>
+                  <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center"><span className="text-white font-bold">✓</span></div>
                   <span>{t("odc.feature1")}</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold">✓</span>
-                  </div>
+                  <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center"><span className="text-white font-bold">✓</span></div>
                   <span>{t("odc.feature2")}</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold">✓</span>
-                  </div>
+                  <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center"><span className="text-white font-bold">✓</span></div>
                   <span>{t("odc.feature3")}</span>
                 </div>
               </div>
-
-              <Button className="cyber-button mt-8" onClick={() => setLocation("/whitepaper")}>
+              <Button className="cyber-button mt-8">
                 {t("odc.learnMore")}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </div>
-
             <div className="relative hidden md:block">
               <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 blur-3xl rounded-full" />
               <img
@@ -353,7 +293,6 @@ export default function Home() {
               {t("roadmap.title")} <span className="neon-glow">{t("roadmap.subtitle")}</span>
             </h2>
           </div>
-
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {[
               { quarter: t("roadmap.q3.quarter"), items: t("roadmap.q3.items", { returnObjects: true }) as string[] },
@@ -362,9 +301,7 @@ export default function Home() {
               { quarter: t("roadmap.q2.quarter"), items: t("roadmap.q2.items", { returnObjects: true }) as string[] },
             ].map((item, idx) => (
               <div key={idx} className="cyber-card">
-                <h3 className="text-2xl font-bold mb-4 text-purple-400">
-                  {item.quarter}
-                </h3>
+                <h3 className="text-2xl font-bold mb-4 text-purple-400">{item.quarter}</h3>
                 <ul className="space-y-2">
                   {item.items.map((subitem: string, sidx: number) => (
                     <li key={sidx} className="flex items-center gap-2 text-gray-300">
@@ -384,23 +321,16 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-cyan-500/10" />
         <div className="absolute inset-0 grid-bg opacity-5" />
         <div className="container mx-auto px-4 relative z-10 text-center">
-          <h2 className="text-4xl md:text-5xl font-black mb-6">
-            {t("cta.title")}
-          </h2>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            {t("cta.description")}
-          </p>
-
+          <h2 className="text-4xl md:text-5xl font-black mb-6">{t("cta.title")}</h2>
+          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">{t("cta.description")}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button className="cyber-button text-lg h-12 px-8" onClick={() => setLocation("/game")}>
-              {t("cta.startButton")}
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
-            <Button
-              variant="outline"
-              className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 text-lg h-12 px-8"
-              onClick={() => window.open("https://t.me/onecoinfun", "_blank")}
-            >
+            <Link href="/game">
+              <Button className="cyber-button text-lg h-12 px-8">
+                {t("cta.startButton")}
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </Link>
+            <Button variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 text-lg h-12 px-8">
               {t("cta.joinCommunity")}
             </Button>
           </div>
@@ -419,11 +349,8 @@ export default function Home() {
                 </div>
                 <span className="font-bold neon-glow">1UCOIN</span>
               </div>
-              <p className="text-sm text-gray-400">
-                {t("footer.description")}
-              </p>
+              <p className="text-sm text-gray-400">{t("footer.description")}</p>
             </div>
-
             <div>
               <h4 className="font-bold mb-4">{t("footer.product")}</h4>
               <ul className="space-y-2 text-sm text-gray-400">
@@ -432,7 +359,6 @@ export default function Home() {
                 <li><a href="/whitepaper" className="hover:text-purple-400 transition">{t("footer.whitepaper")}</a></li>
               </ul>
             </div>
-
             <div>
               <h4 className="font-bold mb-4">{t("footer.community")}</h4>
               <ul className="space-y-2 text-sm text-gray-400">
@@ -441,7 +367,6 @@ export default function Home() {
                 <li><a href="https://t.me/onecoinfun" className="hover:text-purple-400 transition">{t("footer.telegram")}</a></li>
               </ul>
             </div>
-
             <div>
               <h4 className="font-bold mb-4">{t("footer.legal")}</h4>
               <ul className="space-y-2 text-sm text-gray-400">
@@ -451,21 +376,12 @@ export default function Home() {
               </ul>
             </div>
           </div>
-
           <div className="border-t border-purple-500/20 pt-8 flex flex-col md:flex-row items-center justify-between">
-            <p className="text-sm text-gray-400">
-              {t("footer.copyright")}
-            </p>
+            <p className="text-sm text-gray-400">{t("footer.copyright")}</p>
             <div className="flex gap-4 mt-4 md:mt-0">
-              <a href="https://github.com/luckyzmz/1ucoin" className="text-gray-400 hover:text-purple-400 transition">
-                {t("footer.github")}
-              </a>
-              <a href="#" className="text-gray-400 hover:text-purple-400 transition">
-                {t("footer.polygon")}
-              </a>
-              <a href="#" className="text-gray-400 hover:text-purple-400 transition">
-                {t("footer.quickswap")}
-              </a>
+              <a href="#" className="text-gray-400 hover:text-purple-400 transition">{t("footer.github")}</a>
+              <a href="#" className="text-gray-400 hover:text-purple-400 transition">{t("footer.polygon")}</a>
+              <a href="#" className="text-gray-400 hover:text-purple-400 transition">{t("footer.quickswap")}</a>
             </div>
           </div>
         </div>

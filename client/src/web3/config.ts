@@ -1,118 +1,122 @@
 /**
- * 1ucoin.fun — Web3 配置文件
+ * 1ucoin.fun Web3 配置 — Polygon Amoy 测试网
  *
- * 将部署完成后更新以下地址：
- * - CONTRACT_ADDRESS: 你的 1ucoin_v3.sol 部署后的地址
- * - 各代币地址已在下方预填 Polygon 主网地址
+ * 部署后更新 CONTRACT_ADDRESS 等实际地址
  */
 
-// ============================================
-// 网络配置
-// ============================================
-export const POLYGON_CHAIN_ID = 137; // Polygon 主网
-export const POLYGON_MUMBAI_CHAIN_ID = 80001; // Polygon Mumbai 测试网
+// ══════════════════════════════════════════════════
+//  网络配置
+// ══════════════════════════════════════════════════
 
-/**
- * 切换至此网络（如果当前不在）
- */
-export const POLYGON_MAINNET = {
-  chainId: `0x${POLYGON_CHAIN_ID.toString(16)}`,
-  chainName: "Polygon Mainnet",
-  nativeCurrency: { name: "MATIC", symbol: "MATIC", decimals: 18 },
-  rpcUrls: ["https://polygon-rpc.com/"],
-  blockExplorerUrls: ["https://polygonscan.com/"],
+export const AMOY_CHAIN_ID = 80002;
+export const AMOY_CHAIN_ID_HEX = "0x13882";
+
+export const AMOY_NETWORK = {
+  chainId: AMOY_CHAIN_ID_HEX,
+  chainName: "Polygon Amoy Testnet",
+  nativeCurrency: {
+    name: "MATIC",
+    symbol: "MATIC",
+    decimals: 18,
+  },
+  rpcUrls: ["https://rpc-amoy.polygon.technology"],
+  blockExplorerUrls: ["https://amoy.polygonscan.com"],
 };
 
-export const POLYGON_MUMBAI = {
-  chainId: `0x${POLYGON_MUMBAI_CHAIN_ID.toString(16)}`,
-  chainName: "Polygon Mumbai",
-  nativeCurrency: { name: "MATIC", symbol: "MATIC", decimals: 18 },
-  rpcUrls: ["https://rpc-mumbai.maticvigil.com/"],
-  blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
-};
+// ══════════════════════════════════════════════════
+//  合约地址（部署后更新）
+// ══════════════════════════════════════════════════
 
-// ============================================
-// 合约地址
-// ============================================
-
-// ⚠️ 部署后替换为你的实际合约地址
+/** OneUCoin v3 主合约 */
 export const CONTRACT_ADDRESS = "0x0000000000000000000000000000000000000000";
 
-// Polygon 上的主流代币地址
-export const TOKENS: Record<string, { address: string; symbol: string; priceFeed: string }> = {
-  BTC: {
-    symbol: "WBTC",
-    address: "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6",           // WBTC on Polygon
-    priceFeed: "0xDE31F8bFBD8c84b5360CFACCa3539B938dd78AE6",         // BTC/USD
-  },
-  ETH: {
-    symbol: "WETH",
-    address: "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",           // WETH on Polygon
-    priceFeed: "0xF9680D99D6C9589e2a93a78A04A279e509205945",         // ETH/USD
-  },
-  BNB: {
-    symbol: "BNB",
-    address: "0x3BA4c387f786bFEE076A58914F5Bd38d668B42c3",           // BNB on Polygon
-    priceFeed: "0x82a6c51CF3e43021AC56c175425bd31288e5e449",         // BNB/USD (approximate)
-  },
-  SOL: {
-    symbol: "SOL",
-    address: "0x7dff46370e9ea5f0bad3c4e29711ad50062ea7a4",           // SOL on Polygon
-    priceFeed: "0x10C8264C0935b3B9870013e057f330Ff3e9C56dC",         // SOL/USD (approximate)
-  },
-  LTC: {
-    symbol: "LTC",
-    address: "0x8e0a809f1f413f1d259a62220d0b5bfb887066b4",           // LTC on Polygon (approximate)
-    priceFeed: "0xEB3e9F3d1E9ECbE0b2a2b12713a9bb7Fd2a827C9",        // LTC/USD (approximate)
-  },
-};
+/** 测试用 USDT（6 decimals） */
+export const MOCK_USDT = "0x0000000000000000000000000000000000000000";
 
-// QuickSwap Router v2 (Polygon)
+/** 测试用 ODC 治理代币（18 decimals） */
+export const MOCK_ODC = "0x0000000000000000000000000000000000000000";
+
+// ══════════════════════════════════════════════════
+//  基础设施地址（Amoy 测试网，不需要改）
+// ══════════════════════════════════════════════════
+
 export const QUICKSWAP_ROUTER = "0xa5E0829Caced8fFDD4De3c43696ef9D3796786BA";
 
-// USDT on Polygon
-export const USDT_ADDRESS = "0xc2132D05D31c914a87C6611C10748AEb04B58e8F";
+export const PRICE_FEEDS = {
+  BTC: "0x007A22900a3B98143368Bd5906f8E17e9867581b",
+  ETH: "0x0715A7794a1dc8e42615F059dD6e406A6594651A",
+};
 
-// ============================================
-// 合约 ABI（从 1ucoin_v3.sol 生成）
-// ⚠️ 完整部署后可用 Hardhat 导出完整 ABI
-// ============================================
-export const ONEUCOIN_ABI = [
-  // 读函数
-  "function drawActive() external view returns (bool)",
-  "function drawCompleted() external view returns (bool)",
-  "function drawRound() external view returns (uint256)",
-  "function targetToken() external view returns (address)",
-  "function targetSymbol() external view returns (string)",
-  "function totalShares() external view returns (uint256)",
-  "function sharesSold() external view returns (uint256)",
-  "function lockedPrice() external view returns (uint256)",
-  "function winner() external view returns (address)",
-  "function userShares(address) external view returns (uint256)",
-  "function getDrawStatus() external view returns (uint256,address,string,uint256,uint256,uint256,bool,bool,address)",
-  "function getCurrentPrice() external view returns (uint256,uint256)",
-  "function getEffectiveFeeFor(address) external view returns (uint256)",
-  "function getParticipantCount() external view returns (uint256)",
+export const VRF_COORDINATOR = "0x7a1BaC17Ccc5b313516C5E16fb24f7659aA5ebed";
 
-  // 写函数
-  "function purchaseShares(uint256 _shares) external",
+// ══════════════════════════════════════════════════
+//  代币列表（用于前端展示）
+// ══════════════════════════════════════════════════
 
-  // 事件
-  "event DrawStarted(uint256 indexed round, address indexed targetToken, string targetSymbol, uint256 totalShares, uint256 lockedPrice)",
-  "event SharePurchased(uint256 indexed round, address indexed user, uint256 shares, uint256 costUsdt)",
-  "event DrawFulfilled(uint256 indexed round, address indexed winner, uint256 randomNumber, uint256 lockedPrice, uint256 currentPrice, string settlementType)",
-  "event PrizeDistributedUsdt(uint256 indexed round, address indexed winner, uint256 amount)",
-  "event PrizeDistributedToken(uint256 indexed round, address indexed winner, address token, uint256 amount)",
-  "event FeeCollected(uint256 indexed round, address feeToken, uint256 amount)",
-  "event ODCGiven(address indexed user, uint256 amount)",
-  "event WinnerSelected(uint256 indexed round, address indexed winner, uint256 randomNumber)",
+export interface TokenConfig {
+  symbol: string;
+  name: string;
+  priceFeed: string;
+  decimals: number;
+  color: string;
+  /** 测试网没有真实代币，用 MockERC20 模拟 */
+  mockAddress?: string;
+}
+
+export const SUPPORTED_TOKENS: TokenConfig[] = [
+  {
+    symbol: "BTC",
+    name: "Bitcoin",
+    priceFeed: PRICE_FEEDS.BTC,
+    decimals: 8,
+    color: "from-orange-500 to-orange-600",
+  },
+  {
+    symbol: "ETH",
+    name: "Ethereum",
+    priceFeed: PRICE_FEEDS.ETH,
+    decimals: 18,
+    color: "from-blue-500 to-blue-600",
+  },
 ];
 
-// ERC20 ABI（最小化）
+// ══════════════════════════════════════════════════
+//  合约 ABI（精简版，仅包含前端需要的函数）
+// ══════════════════════════════════════════════════
+
+export const ONEUCOIN_ABI = [
+  // ── 状态查询 ──
+  "function getDrawStatus() external view returns (address _targetToken, string _targetSymbol, uint256 _totalShares, uint256 _sharesSold, bool _drawActive, address _winner)",
+  "function totalShares() external view returns (uint256)",
+  "function sharesSold() external view returns (uint256)",
+  "function drawActive() external view returns (bool)",
+  "function winner() external view returns (address)",
+  "function targetToken() external view returns (address)",
+  "function targetSymbol() external view returns (string)",
+  "function randomResult() external view returns (uint256)",
+  "function userShares(address) external view returns (uint256)",
+  "function usdt() external view returns (address)",
+  "function odc() external view returns (address)",
+  "function SHARE_PRICE() external view returns (uint256)",
+  "function FEE_PERCENTAGE() external view returns (uint256)",
+  // ── 写操作 ──
+  "function purchaseShares(uint256 _shares) external",
+  "function startDraw(address _targetToken, string memory _targetSymbol, address _priceFeed) external",
+  "function emergencyStop() external",
+  // ── 事件 ──
+  "event DrawStarted(address targetToken, string targetSymbol, uint256 totalShares)",
+  "event SharePurchased(address user, uint256 shares)",
+  "event DrawEnded(address winner, uint256 amount)",
+  "event ODCdistributed(address user, uint256 odcAmount)",
+  "event Swapped(address token, uint256 usdtAmount, uint256 tokenAmount)",
+];
+
 export const ERC20_ABI = [
-  "function approve(address spender, uint256 amount) external returns (bool)",
-  "function allowance(address owner, address spender) external view returns (uint256)",
-  "function balanceOf(address account) external view returns (uint256)",
   "function decimals() external view returns (uint8)",
   "function symbol() external view returns (string)",
+  "function balanceOf(address) external view returns (uint256)",
+  "function allowance(address owner, address spender) external view returns (uint256)",
+  "function approve(address spender, uint256 amount) external returns (bool)",
+  "function transfer(address to, uint256 amount) external returns (bool)",
+  "function mint(address to, uint256 amount) external",
 ];
